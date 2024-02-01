@@ -139,7 +139,7 @@ class StarMenu extends StatefulWidget {
 class StarMenuState extends State<StarMenu>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController? controller;
-  AnimationController? panController;
+  // AnimationController? panController;
   Animation? panAnimation;
   late Animation<double> animationPercent;
   List<Widget> _items = [];
@@ -465,74 +465,74 @@ class StarMenuState extends State<StarMenu>
                         if (!(menuState == MenuState.closing ||
                             menuState == MenuState.closed)) closeMenu();
                       },
-                      onPanStart: (details) {
-                        precPanDelta = Offset.zero;
-                        panController?.stop();
-                      },
-                      onPanUpdate: (event) {
-                        if (widget.params.shape == MenuShape.circle) {
-                          if (event.delta.dx >= 0) {
-                            circleStartAngleRAD -= 0.07;
-                            circleEndAngleRAD -= 0.07;
-                          } else {
-                            circleStartAngleRAD += 0.07;
-                            circleEndAngleRAD += 0.07;
-                          }
-                          itemsMatrix = calcPosition();
-                          checkBoundaries();
-                          panProgress.value += 0.1;
-                          precPanDelta = event.delta;
-
-                          if (bufferIndex == 0) {
-                            startAverageTimeStamp =
-                                event.sourceTimeStamp ?? Duration.zero;
-                          } else if (bufferIndex >= 4) {
-                            endAverageTimeStamp =
-                                event.sourceTimeStamp ?? Duration.zero;
-                            bufferIndex = 0;
-                          }
-                          distanceBuffer[bufferIndex] = event.delta.distance;
-                          bufferIndex++;
-                          print(
-                              'MOVE ${event.delta.distance} $circleStartAngleRAD $circleEndAngleRAD');
-                        }
-                      },
-                      onPanEnd: (details) {
-                        panProgress.value = 0;
-                        double totDistance = 0;
-                        for (int i = 0; i < 4; i++)
-                          totDistance += distanceBuffer[i];
-
-                        /// pixel over milliseconds
-                        double velocity = totDistance /
-                            (endAverageTimeStamp.inMilliseconds -
-                                startAverageTimeStamp.inMilliseconds);
-
-                        // double end = circleStartAngleRAD + velocity * 5000;
-                        double end = circleStartAngleRAD +
-                            atan(totDistance*10);
-                        print(
-                            'PANEND distance: $totDistance velocity: $velocity  '
-                            '${atan(totDistance)}');
-
-                        if (velocity == 0) return;
-                        panController = AnimationController(
-                          duration: Duration(milliseconds: 400),
-                          vsync: this,
-                        );
-                        panAnimation = Tween<double>(
-                          begin: circleStartAngleRAD,
-                          end: end,
-                        ).animate(
-                          CurvedAnimation(
-                            parent: panController!,
-                            curve: Curves.bounceOut,
-                          ),
-                        )
-                          ..addListener(panAnimationListener)
-                          ..addStatusListener((panAnimationStatusListener));
-                        panController?.forward();
-                      },
+                      // onPanStart: (details) {
+                      //   precPanDelta = Offset.zero;
+                      //   panController?.stop();
+                      // },
+                      // onPanUpdate: (event) {
+                      //   if (widget.params.shape == MenuShape.circle) {
+                      //     if (event.delta.dx >= 0) {
+                      //       circleStartAngleRAD -= 0.07;
+                      //       circleEndAngleRAD -= 0.07;
+                      //     } else {
+                      //       circleStartAngleRAD += 0.07;
+                      //       circleEndAngleRAD += 0.07;
+                      //     }
+                      //     itemsMatrix = calcPosition();
+                      //     checkBoundaries();
+                      //     panProgress.value += 0.1;
+                      //     precPanDelta = event.delta;
+                      //
+                      //     if (bufferIndex == 0) {
+                      //       startAverageTimeStamp =
+                      //           event.sourceTimeStamp ?? Duration.zero;
+                      //     } else if (bufferIndex >= 4) {
+                      //       endAverageTimeStamp =
+                      //           event.sourceTimeStamp ?? Duration.zero;
+                      //       bufferIndex = 0;
+                      //     }
+                      //     distanceBuffer[bufferIndex] = event.delta.distance;
+                      //     bufferIndex++;
+                      //     print(
+                      //         'MOVE ${event.delta.distance} $circleStartAngleRAD $circleEndAngleRAD');
+                      //   }
+                      // },
+                      // onPanEnd: (details) {
+                      //   panProgress.value = 0;
+                      //   double totDistance = 0;
+                      //   for (int i = 0; i < 4; i++)
+                      //     totDistance += distanceBuffer[i];
+                      //
+                      //   /// pixel over milliseconds
+                      //   double velocity = totDistance /
+                      //       (endAverageTimeStamp.inMilliseconds -
+                      //           startAverageTimeStamp.inMilliseconds);
+                      //
+                      //   // double end = circleStartAngleRAD + velocity * 5000;
+                      //   double end = circleStartAngleRAD +
+                      //       atan(totDistance*10);
+                      //   print(
+                      //       'PANEND distance: $totDistance velocity: $velocity  '
+                      //       '${atan(totDistance)}');
+                      //
+                      //   if (velocity == 0) return;
+                      //   panController = AnimationController(
+                      //     duration: Duration(milliseconds: 400),
+                      //     vsync: this,
+                      //   );
+                      //   panAnimation = Tween<double>(
+                      //     begin: circleStartAngleRAD,
+                      //     end: end,
+                      //   ).animate(
+                      //     CurvedAnimation(
+                      //       parent: panController!,
+                      //       curve: Curves.bounceOut,
+                      //     ),
+                      //   )
+                      //     ..addListener(panAnimationListener)
+                      //     ..addStatusListener((panAnimationStatusListener));
+                      //   panController?.forward();
+                      // },
                     ),
 
                     // draw background container
